@@ -7,15 +7,10 @@ const KEY_STORAGE ="feedback-form-state";
 feedbackForm.addEventListener('input', throttle(handleClick,500));
 feedbackForm.addEventListener('submit', onFormSubmit);
 
+const formData = {};
 function handleClick(e) {
-    const formElements = e.target.elements;
-    console.log(formElements);
-    const email = formElements.email.value;
-    const message = formElements.message.value;
-    const formData = {};
-    formData.email = email ;
-    formData.message = message;
-    storageSetItem(formData)
+    formData[e.target.name]=e.target.value;
+    storageSetItem(formData); 
 };
 
 function storageSetItem(formData) {
@@ -25,27 +20,20 @@ function storageSetItem(formData) {
 populateTaxtarea();
 
 function populateTaxtarea() {
-    // if(localStorage.getItem(KEY_STORAGE)){
-    // const savedData = JSON.parse(localStorage.getItem(KEY_STORAGE));
-    // if (savedData){
-    //     input.value = savedData.email;
-    //     textarea.value = savedData.message;
-    // }
-    // }
     const savedData = JSON.parse(localStorage.getItem(KEY_STORAGE));
     if (savedData){
         input.value = savedData.email;
         textarea.value = savedData.message;
     }
-
 };
 
 function onFormSubmit(e) {
     e.preventDefault();
-    if (localStorage.getItem(KEY_STORAGE)){
-    console.log(JSON.parse(localStorage.getItem(KEY_STORAGE)))} else{
-        console.log({});
-    }
+  
+    localStorage.getItem(KEY_STORAGE)
+    ?console.log(JSON.parse(localStorage.getItem(KEY_STORAGE)))
+    :console.log({});
+    
     localStorage.removeItem(KEY_STORAGE);
     feedbackForm.reset()
 };
